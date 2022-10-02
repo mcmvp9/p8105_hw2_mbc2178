@@ -9,3 +9,105 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Let's load in the libraries needed to perform data manipulation and cleaning for this assignment.
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+## Problem 1
+
+Below we import the csv file containing NYC transit data `NYC_Transit_Subway_Entrance_And_Exit_Data.csv`. We first import our dataset to R and perform data cleaning and manipulations to fit the assignment. We keep the variables 
+`station`, `name`, `station latitude/longitude`, `routes`, `entry`, `vending`, `entrance type`, and `ada`. 
+In addition, we convert the variable `entry` from character to a logical variable. 
+
+```{r import}
+nyc_transit_df = 
+    read_csv(
+      file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv",
+      col_types = cols(Route8 = "c", Route9 = "c", Route10 = "c", Route11 = "c")) %>%
+     janitor::clean_names() %>%
+    select(
+      line, station_name, station_latitude, station_longitude, starts_with("route"),
+      entry, vending,  exit_only, vending, entrance_type, ada) %>%
+    mutate(entry = ifelse(entry == "YES", TRUE, FALSE))
+```
+
+After completing the cleaning procedure above, the data still doesn't look tidy.
+There are `r nrow(nyc_transit_df)`and `r ncol(nyc_transit_df)`. The variables `route8 - route11`
+were changed to character variables and the variable `entry` was changed to a logical variable. 
+
+The variables in our dataset include `line`, `station_name`, `station_latitude`, `station_longitude`,
+`route1 - route11`,`entry`, `vending`, `exit_only`, `vending`, `entrance_type` and `ada`. 
+
+We will need to perform additional manipulations on variables `route1-route11` to ensure that there is one variable that
+contains all of the subway routes. 
+
+The code chunk below selects the station names and line numbers to determine the number of distinct stations. We 
+use the `select` function to select `station_name` and `line` and use the `distinct` function to only select a unique 
+station per row in our data frame. 
+
+```{r}
+nyc_transit_df %>% 
+  select(station_name, line) %>% 
+  distinct
+```
+There are 465 distinct stations in the `nyc_transit_df`(the number of rows in the table are 465).
+
+Next, we determine the number of stations that are ADA compliant in this dataframe. We first use the 
+`filter` function to filter out only stations that are ADA compliant and select the unique 
+station and line in the subway system per row. 
+
+
+```{r}
+nyc_transit_df %>% 
+  filter(ada == "TRUE") %>% 
+  select(station_name, line) %>% 
+  distinct()
+```
+ There are 84 stations that are ADA compliant in the `nyc_transit_df` data frame (the number of rows in this tibble is 84).
+
+Now we determine the proportion of station entrances/ exits without vending allow entrance. We exclude stations that 
+do that allow vending by using the `filter` function. Then we use the `pull` function on `entry` to find the mean of 
+this logical variable. This mean will tell us the proportion of station entrances/exists without vending allow entrance. 
+
+```{r}
+nyc_transit_df %>%
+  filter(vending == "NO") %>% 
+  pull(entry) %>% 
+  mean
+```
+
+There are 37.7% of station entrances/exits without vending allow entrance (mean from code chunk output above). 
+
+Last, we now reformat our data so that the route number and route name are distinct variables. We use the `pivot_longer` to 
+transform the variables to rows. Then we filter to select only the A train and use the `distinct function` to select 
+unique stations that serve the A train and the number that are ADA compliant. 
+
+```{r}
+nyc_transit_df %>%
+  pivot_longer(
+    route1:route11,
+    names_to = "route_num",
+    values_to = "route") %>% 
+  filter(route == "A") %>%
+select(station_name,line)%>%
+distinct()
+
+nyc_transit_df %>%
+   pivot_longer(
+    route1:route11,
+    names_to = "route_num",
+    values_to = "route") %>% 
+  filter(route =="A", ada =="TRUE") %>%
+select(station_name,line) %>%
+distinct()
+```
+There are 60 stations that serve the A train and 17 stations re ADA compliant in the `nyc_transit_df` dataframe.
+
+
+
+
+
+
+
