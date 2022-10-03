@@ -13,6 +13,7 @@ Let's load in the libraries needed to perform data manipulation and cleaning for
 ```{r}
 library(tidyverse)
 library(dplyr)
+library(readxl)
 ```
 
 ## Problem 1
@@ -105,6 +106,21 @@ distinct()
 ```
 There are 60 stations that serve the A train and 17 stations re ADA compliant in the `nyc_transit_df` dataframe.
 
+## Problem 2 
+
+Let's load the `readxl` library to import the excel sheet containing Mr. Trash Wheel dataset. 
+We will clean this dataset by ommitting non-data entries using arguments in the `read_excel` 
+function. Then we will round variable `sports_balls` to the nearest integer using `as.integer`.
+
+
+```{r}
+library(readxl)
+trash_df = 
+  read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "Mr. Trash Wheel", 
+             range = "A2:N534", na = "", col_names = TRUE) %>%
+  janitor::clean_names() %>% 
+  drop_na(dumpster) 
+```
 
 
 
