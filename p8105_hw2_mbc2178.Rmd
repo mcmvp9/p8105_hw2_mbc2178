@@ -108,21 +108,43 @@ There are 60 stations that serve the A train and 17 stations re ADA compliant in
 
 ## Problem 2 
 
-Let's load the `readxl` library to import the excel sheet containing Mr. Trash Wheel dataset. 
+Let's load the `readxl` library to import the excel sheet containing data for Mr. Trash Wheel dataset. 
 We will clean this dataset by ommitting non-data entries using arguments in the `read_excel` 
 function. Then we will round variable `sports_balls` to the nearest integer using `as.integer`.
+We will perform a similar process on the excel sheet containing data for Professor Trash Wheel. 
+
+After data cleaning, we will combine the two datasets to produce a single tidy dataset. 
+We will create a unique variable called `loc_trash` to keep track of which Trash Wheel is which. 
 
 
 ```{r}
 library(readxl)
 trash_df = 
   read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "Mr. Trash Wheel", 
-             range = "A2:N534", na = "", col_names = TRUE) %>%
+             range = "A2:N534", na = "", col_names = TRUE, col_types = NULL) %>%
   janitor::clean_names() %>% 
-  drop_na(dumpster) 
+  drop_na() %>% 
+  mutate(
+    sports_balls = as.integer(round(sports_balls, digits=0))) %>% 
+  mutate( loc_trash = "Mr. Trash Wheel")
 ```
 
+```{r}
+proftrsh_df =
+  read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", 
+             sheet = "Professor Trash Wheel", range = "A2:N117" , na = "",
+             col_names = TRUE, col_types = NULL) %>% 
+janitor::clean_names() %>% 
+  drop_na() %>% 
+  mutate(
+    sports_balls = as.integer(round(sports_balls, digits=0))) %>% 
+  mutate(loc_trash = "Professor Trash Wheel")
+```
+ 
 
+```{r join}
+
+```
 
 
 
