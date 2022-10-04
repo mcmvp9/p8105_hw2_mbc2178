@@ -115,6 +115,7 @@ We will perform a similar process on the excel sheet containing data for Profess
 
 After data cleaning, we will combine the two datasets to produce a single tidy dataset. 
 We will create a unique variable called `loc_trash` to keep track of which Trash Wheel is which. 
+New combined data frame arranged in ascending order. 
 
 
 ```{r}
@@ -143,7 +144,10 @@ janitor::clean_names() %>%
  
 
 ```{r join}
-
+tidy_trash =
+  bind_rows(trash_df, proftrsh_df) %>% 
+  janitor::clean_names() %>% 
+  arrange()
 ```
 
 
