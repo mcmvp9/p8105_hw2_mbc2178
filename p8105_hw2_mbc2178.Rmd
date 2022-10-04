@@ -14,6 +14,7 @@ Let's load in the libraries needed to perform data manipulation and cleaning for
 library(tidyverse)
 library(dplyr)
 library(readxl)
+library(readr)
 ```
 
 ## Problem 1
