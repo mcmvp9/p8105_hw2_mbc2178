@@ -207,9 +207,28 @@ snp_df =
 ```
 
 Now let's tidy the `unemployment data` so that it can be merged with the `pols-month` 
-and `snp_df`. 
+and `snp_df`. We first import the data and clean using the `janitor` function 
+and convert the columns with month names to one variable `month`. The values of the 
+rows will be transferred to one variable called `percent_unemply`. The values of the 
+`month` variable are abbreviated so we transformed this to fit the style of the 
+previous data frames above. 
 
-
+```{r}
+unemply_data = 
+  read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>%
+  janitor::clean_names() %>% 
+  pivot_longer(
+    jan:dec,
+    names_to = "month",
+    values_to = "percent_unemply"
+  ) %>% 
+  mutate(
+    month = (str_to_title(month)) %>% 
+ factor(month, levels = month.abb, 
+        labels = month.name)
+ ) 
+     
+```
 
 
 
