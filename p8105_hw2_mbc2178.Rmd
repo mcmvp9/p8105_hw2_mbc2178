@@ -120,27 +120,26 @@ New combined data frame arranged in ascending order.
 
 
 ```{r}
-library(readxl)
+
 trash_df = 
-  read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "Mr. Trash Wheel", 
-             range = "A2:N534", na = "", col_names = TRUE, col_types = NULL) %>%
+  read_excel("data/Trash Wheel Collection Data.xlsx", sheet = "Mr. Trash Wheel", 
+             range = "A2:N549", na = "", col_names = TRUE, col_types = NULL) %>%
   janitor::clean_names() %>% 
   drop_na() %>% 
   mutate(
-    sports_balls = as.integer(round(sports_balls, digits=0))) %>% 
-  mutate( loc_trash = "Mr. Trash Wheel")
-```
-
-```{r}
+    sports_balls = as.integer(round(sports_balls, digits= 0)), 
+   loc_trash = "Mr. Trash Wheel",
+   year = as.numeric(year)
+   ) 
+   
 proftrsh_df =
-  read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", 
-             sheet = "Professor Trash Wheel", range = "A2:N117" , na = "",
-             col_names = TRUE, col_types = NULL) %>% 
+  read_excel("data/Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel",
+             range = "A2:M96", na = "", col_names = TRUE, col_types = ) %>% 
 janitor::clean_names() %>% 
   drop_na() %>% 
   mutate(
-    sports_balls = as.integer(round(sports_balls, digits=0))) %>% 
-  mutate(loc_trash = "Professor Trash Wheel")
+   loc_trash = "Professor Trash Wheel"
+   )
 ```
  
 
@@ -153,10 +152,13 @@ tidy_trash =
 
 Now that we have cleaned our data frame we have a tidy dataset called `tidy_trash` from
 combining `trash_df` and `proftrsh_df`. In this new data frame, `tidy_trash` there are 
-`r nrow(tidy_trash)` observations and `r ncol(tidy_trash)` variables. Some of these variables include 
-`r str(tidy_trash)`. 
+`r nrow(tidy_trash)` observations and `r ncol(tidy_trash)` variables. Some of these variables include: 
+```{r, echo = FALSE}
+str(tidy_trash)
+```
+
 The total weight of trash collected by Professor Trash Wheel was 
-`r filter(tidy_trash, loc_trash == "Professor Trash Wheel") %>% select(weight_tons) %>% sum()`.
+`r filter(tidy_trash, loc_trash == "Professor Trash Wheel") %>% select(weight_tons) %>% sum()`tons.
 On the other hand,  the total number of sports balls collected by Mr. Trash Wheel in 2020
 was `r filter(tidy_trash, loc_trash == "Mr. Trash Wheel", year == 2020) %>% select(sports_balls) %>% sum()`.
 
