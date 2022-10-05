@@ -222,12 +222,12 @@ unemply_df =
     jan:dec,
     names_to = "month",
     values_to = "percent_unemply"
-  ) %>% 
+  ) %>%
   mutate(
-    month = (str_to_title(month)) %>% 
- factor(month, levels = month.abb, 
-        labels = month.name)
- ) 
+    month = (str_to_title(month)) %>%  
+  factor(month, levels = month.abb, 
+        labels = month.name))
+ 
 ```
 
 Now we have imported, cleaned and tidied all three of our data 
@@ -241,7 +241,10 @@ will merge the result to `unemply-data`. We will perform a right join first, mer
 
 ```{r}
 rightmrg_df = 
-  right_join(snp_df, pols_month, by = "year")
+  right_join(snp_df, pols_month, by = c("year", "month"))
+
+leftmrg_df =
+  left_join(rightmrg_df, unemply_df, by =c("year", "month"))
 ```
 
 
