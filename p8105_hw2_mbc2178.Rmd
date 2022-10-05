@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Let's load in the libraries needed to perform data manipulation and cleaning for this assignment.
-```{r}
+```{r message = FALSE}
 library(tidyverse)
 library(dplyr)
 library(readxl)
@@ -36,7 +36,7 @@ nyc_transit_df =
 ```
 
 After completing the cleaning procedure above, the data still doesn't look tidy.
-There are `r nrow(nyc_transit_df)`and `r ncol(nyc_transit_df)`. The variables `route8 - route11`
+There are `r nrow(nyc_transit_df)` observations and `r ncol(nyc_transit_df)` variables. The variables `route8 - route11`
 were changed to character variables and the variable `entry` was changed to a logical variable. 
 
 The variables in our dataset include `line`, `station_name`, `station_latitude`, `station_longitude`,
@@ -158,7 +158,7 @@ str(tidy_trash)
 ```
 
 The total weight of trash collected by Professor Trash Wheel was 
-`r filter(tidy_trash, loc_trash == "Professor Trash Wheel") %>% select(weight_tons) %>% sum()`tons.
+`r filter(tidy_trash, loc_trash == "Professor Trash Wheel") %>% select(weight_tons) %>% sum()` tons.
 On the other hand,  the total number of sports balls collected by Mr. Trash Wheel in 2020
 was `r filter(tidy_trash, loc_trash == "Mr. Trash Wheel", year == 2020) %>% select(sports_balls) %>% sum()`.
 
@@ -177,7 +177,7 @@ We perform similar processes on data in `snp.csv` and `unemployment data`. Colum
 arranged according to `year` and `month` as leading columns in `snp.csv` to allow 
 for merging to fit consistency of other data frames. 
 
-```{r}
+```{r message = FALSE}
 pols_month = 
   read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>% 
   janitor::clean_names() %>% 
@@ -217,7 +217,7 @@ rows will be transferred to one variable called `percent_unemply`. The values of
 `month` variable are abbreviated so we transformed it to month names to fit the style of the 
 data frames above. 
 
-```{r}
+```{r message = FALSE}
 unemply_df = 
   read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>%
   janitor::clean_names() %>% 
@@ -252,7 +252,7 @@ leftmrg_df =
 
 The `rightmrg_df` was created from a `right_join` between `snp` and `pols`. The number of 
 observations are `r nrow(rightmrg_df)` and `r ncol(rightmrg_df)`. We have data from the 
-following years `r range(rightmrg_df$year)`. 
+following years `r min(rightmrg_df$year)` and `r max(rightmrg_df$year)` . 
 This `dataset contains the following variables:
 ```{r}
 str(rightmrg_df)
@@ -260,8 +260,8 @@ str(rightmrg_df)
 
 On the other hand, the `leftmrg_df` was created a `left_join` between the result of the previous
 merge and `unemply_df`. The number of observations are `r nrow(leftmrg_df)` and `r ncol(leftmrg_df)`. We have data from the 
-following years `r range(leftmrg_df$year)`. 
-This `dataset contains the following variables:
+following years `r min(leftmrg_df$year)` and `r max(leftmrg_df$year)` . 
+This dataset contains the following variables:
 ```{r}
 str(leftmrg_df)
 ```
