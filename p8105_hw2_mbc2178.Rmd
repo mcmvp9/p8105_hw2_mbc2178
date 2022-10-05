@@ -171,10 +171,11 @@ use the `mutate` function and apply a `month.name` to change the numeric
 number of months to names. In addition, we use an `if_else` statement to 
 produce variable `president` transforming the values of `prez_dem` and 
 `prez_gop` to character strings under just this one variable. `Day`, `prez_dem`,
-and `prez_gop` were removed from data frame. 
+and `prez_gop` were removed from the data frame. 
 
 We perform similar processes on data in `snp.csv` and `unemployment data`. Columns are 
-arranged according to `year` and `month` as leading columns in `snp.csv` and `pols-month.csv`. 
+arranged according to `year` and `month` as leading columns in `snp.csv` to allow 
+for merging to fit consistency of other data frames. 
 
 ```{r}
 pols_month = 
@@ -213,8 +214,8 @@ Now let's tidy the `unemployment data` so that it can be merged with the `pols-m
 and `snp_df`. We first import the data and clean using the `janitor` function 
 and convert the columns with month names to one variable `month`. The values of the 
 rows will be transferred to one variable called `percent_unemply`. The values of the 
-`month` variable are abbreviated so we transformed this to fit the style of the 
-previous data frames above. 
+`month` variable are abbreviated so we transformed it to month names to fit the style of the 
+data frames above. 
 
 ```{r}
 unemply_df = 
@@ -249,5 +250,19 @@ leftmrg_df =
   left_join(rightmrg_df, unemply_df, by =c("year", "month"))
 ```
 
+The `rightmrg_df` was created from a `right_join` between `snp` and `pols`. The number of 
+observations are `r nrow(rightmrg_df)` and `r ncol(rightmrg_df)`. We have data from the 
+following years `r range(rightmrg_df$year)`. 
+This `dataset contains the following variables:
+```{r}
+str(rightmrg_df)
+```
 
+On the other hand, the `leftmrg_df` was created a `left_join` between the result of the previous
+merge and `unemply_df`. The number of observations are `r nrow(leftmrg_df)` and `r ncol(leftmrg_df)`. We have data from the 
+following years `r range(leftmrg_df$year)`. 
+This `dataset contains the following variables:
+```{r}
+str(leftmrg_df)
+```
 
