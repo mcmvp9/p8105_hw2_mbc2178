@@ -203,7 +203,8 @@ snp_df =
          year > 22, 1900 + year,
          2000 + year)
        ) %>% 
-  select(-day)  
+  select(year, month, close)
+  
 ```
 
 Now let's tidy the `unemployment data` so that it can be merged with the `pols-month` 
@@ -230,5 +231,12 @@ unemply_data =
      
 ```
 
+Now we have imported, cleaned and tidied all three of our data 
+(`pols-month`, `snp_df` & `unemply_data`) containing number of politicians 
+who are democratic or republican, representative measure of stock market as a whole 
+and unemployment respectively.
+
+We will now proceed to merge data from `pols-month` and `snp-df`. After that, we 
+will merge the result to `unemply-data`. We will use 
 
 
