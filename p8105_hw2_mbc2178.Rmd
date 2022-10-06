@@ -125,7 +125,6 @@ trash_df =
   read_excel("data/Trash Wheel Collection Data.xlsx", sheet = "Mr. Trash Wheel", 
              range = "A2:N549", na = "", col_names = TRUE, col_types = NULL) %>%
   janitor::clean_names() %>% 
-  drop_na() %>% 
   mutate(
     sports_balls = as.integer(round(sports_balls, digits= 0)), 
    loc_trash = "Mr. Trash Wheel",
@@ -136,7 +135,6 @@ proftrsh_df =
   read_excel("data/Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel",
              range = "A2:M96", na = "", col_names = TRUE, col_types = ) %>% 
 janitor::clean_names() %>% 
-  drop_na() %>% 
   mutate(
    loc_trash = "Professor Trash Wheel"
    )
@@ -243,11 +241,11 @@ will merge the result to `unemply-data`. We will perform a right join first, mer
 `snp_df` into `pols_month` and then a left join, merging `unemply_df` into the result. 
 
 ```{r}
-rightmrg_df = 
-  right_join(snp_df, pols_month, by = c("year", "month"))
+mrg_df = 
+  left_join(snp_df, pols_month, by = c("year", "month"))
 
 leftmrg_df =
-  left_join(rightmrg_df, unemply_df, by =c("year", "month"))
+  left_join(mrg_df, unemply_df, by = c("year", "month"))
 ```
 
 The `rightmrg_df` was created from a `right_join` between `snp` and `pols`. The number of 
