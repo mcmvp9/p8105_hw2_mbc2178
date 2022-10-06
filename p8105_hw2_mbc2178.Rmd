@@ -248,12 +248,12 @@ leftmrg_df =
   left_join(mrg_df, unemply_df, by = c("year", "month"))
 ```
 
-The `rightmrg_df` was created from a `right_join` between `snp` and `pols`. The number of 
-observations are `r nrow(rightmrg_df)` and `r ncol(rightmrg_df)`. We have data from the 
-following years `r min(rightmrg_df$year)` and `r max(rightmrg_df$year)` . 
+The `mrg_df` was created from a `right_join` between `snp` and `pols`. The number of 
+observations are `r nrow(mrg_df)` and `r ncol(mrg_df)`. We have data from the 
+following years `r min(mrg_df$year)` and `r max(mrg_df$year)` . 
 This `dataset contains the following variables:
 ```{r}
-str(rightmrg_df)
+str(mrg_df)
 ```
 
 On the other hand, the `leftmrg_df` was created a `left_join` between the result of the previous
