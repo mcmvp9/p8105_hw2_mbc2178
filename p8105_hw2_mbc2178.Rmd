@@ -249,7 +249,7 @@ leftmrg_df =
 ```
 
 The `mrg_df` was created from a `right_join` between `snp` and `pols`. The number of 
-observations are `r nrow(mrg_df)` and `r ncol(mrg_df)`. We have data from the 
+observations are `r nrow(mrg_df)` and `r ncol(mrg_df)` variables. We have data from the 
 following years `r min(mrg_df$year)` and `r max(mrg_df$year)` . 
 This `dataset contains the following variables:
 ```{r}
@@ -257,7 +257,7 @@ str(mrg_df)
 ```
 
 On the other hand, the `leftmrg_df` was created a `left_join` between the result of the previous
-merge and `unemply_df`. The number of observations are `r nrow(leftmrg_df)` and `r ncol(leftmrg_df)`. We have data from the 
+merge and `unemply_df`. The number of observations are `r nrow(leftmrg_df)` and `r ncol(leftmrg_df)` rows. We have data from the 
 following years `r min(leftmrg_df$year)` and `r max(leftmrg_df$year)` . 
 This dataset contains the following variables:
 ```{r}
