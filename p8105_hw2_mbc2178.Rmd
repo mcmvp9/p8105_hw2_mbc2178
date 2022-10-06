@@ -242,7 +242,7 @@ will merge the result to `unemply-data`. We will perform a right join first, mer
 
 ```{r}
 mrg_df = 
-  left_join(snp_df, pols_month, by = c("year", "month"))
+  right_join(snp_df,pols_month, by = c("year", "month"))
 
 leftmrg_df =
   left_join(mrg_df, unemply_df, by = c("year", "month"))
