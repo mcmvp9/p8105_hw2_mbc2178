@@ -1,1 +1,1 @@
-# p8105_hw2_mbc2178
+This repository is associated with how to work with variable types(numeric, character, and factor variables) in R for p8105 Data Science course.
